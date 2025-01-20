@@ -2,6 +2,8 @@ import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } 
 import SingUp from "./Components/SingUp/SingUp"
 import app from "./Firebase"
 import SingIn from "./Components/SingIn/SingIn"
+import { ToastContainer } from "react-toastify"
+import Home from "./Pages/Home"
 
 
 
@@ -11,14 +13,18 @@ const App = () => {
     <Route>
       <Route path="/" element={<SingUp/>}/>
       <Route path="/SingIn" element={<SingIn/>}/>
+      <Route path="/Home" element={<Home/>}/>
     </Route>
   ))
 
 
   return (
+    <>
     <div>
       <RouterProvider router={myRoute}/>
     </div>
+     <ToastContainer />
+    </>
   )
 }
 

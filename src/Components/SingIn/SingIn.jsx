@@ -1,17 +1,21 @@
 import { FcGoogle } from 'react-icons/fc'
 import '../SingUp/SingUp.css'
 import { ImGithub } from 'react-icons/im'
-import { Link } from 'react-router-dom'
+import { Link, Navigate, useNavigate } from 'react-router-dom'
 import { useState } from 'react'
+import {getAuth, signInWithEmailAndPassword } from 'firebase/auth'
+import { Bounce, toast, ToastContainer } from 'react-toastify'
 
 
 const SingIn = () => {
   
   // ===================== Custom Varibales
   const [fromData , setfromData] =useState({Email:'', EmailError:'',Password:'',PasswordError:''})
-
+  const Navigate =useNavigate()
 
   // ===================== Firebase Varibales
+  const auth = getAuth();
+
   
   
   // ===================== All Functions
@@ -22,6 +26,48 @@ const SingIn = () => {
     }
     if(!fromData.Password){
       setfromData((prev)=>({...prev , PasswordError:'!border-red-500'}))
+    }
+    else{
+      console.log(fromData)
+      signInWithEmailAndPassword(auth, fromData.Email, fromData.Password)
+      .then((userCredential) => {
+        const user = userCredential.user;
+        if(user.emailVerified === false){
+          toast.warn('Verify your email!', {
+            position: 'top-right',
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: 'dark',
+            transition: Bounce,
+          });
+        }
+        else{
+          Navigate("/Home")
+        }
+
+        
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        if(errorCode == 'auth/invalid-credential'){
+          toast.error('Something went wrong', {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: false,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+            transition: Bounce,
+            });
+        }
+      });
     }
   }
 
@@ -68,6 +114,7 @@ const SingIn = () => {
                 </svg>
                 <span>Sign In</span>
               </button>
+
               <p className='terms'>
               Already have an Account ? <Link to='/' className='terms-link'>Sing Up</Link> 
               </p>
@@ -81,6 +128,7 @@ const SingIn = () => {
         </div>
       </div>
     </div> 
+    <ToastContainer />
     </>
   )
 }

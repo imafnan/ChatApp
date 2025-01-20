@@ -1,6 +1,6 @@
 
 .login-box {
-    @apply max-w-screen-xl m-0 sm:m-10 bg-gray-100 shadow sm:rounded-lg flex justify-center ;
+    @apply max-w-screen-xl lg:mx-auto m-0 sm:m-10 bg-gray-100 shadow sm:rounded-lg flex justify-center ;
   }
   
   .login-form {
