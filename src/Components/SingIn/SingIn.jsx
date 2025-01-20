@@ -80,7 +80,7 @@ const SingIn = () => {
         <div className='login-form'>
           
           <div className='form_container'>
-            <h1 className='title'>Sign up</h1>
+            <h1 className='title'>Sign In</h1>
             <div className='button_container'>
               <button className='button-google'>
                 <div className='button-icon'>
@@ -106,7 +106,7 @@ const SingIn = () => {
               {/*----------- Password */}
               <input  onChange={(e)=>{setfromData((prev)=>({...prev , Password:e.target.value})), setfromData((prev)=>({...prev , PasswordError:""})) }} className={`${fromData.PasswordError} input-field`} type='password' placeholder='Password' />
 
-
+              {/*  */}
               <button onClick={handelSubmit} className='signup-button'>
                 <svg className='signup-icon' fill='none' stroke='currentColor' strokeWidth='2'>
                   <path d='M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2' />
