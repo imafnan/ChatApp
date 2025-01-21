@@ -4,11 +4,18 @@ import { FcGoogle } from 'react-icons/fc';
 import { ImGithub } from 'react-icons/im';
 import { Link, useNavigate } from 'react-router-dom';
 import { Bounce, ToastContainer, toast } from 'react-toastify';
-import { getAuth, GoogleAuthProvider, signInWithPopup, createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth';
+import { 
+  getAuth, 
+  GoogleAuthProvider, 
+  signInWithPopup, 
+  signInWithRedirect,
+  createUserWithEmailAndPassword, 
+  sendEmailVerification 
+} from 'firebase/auth';
 import { BeatLoader } from 'react-spinners';
 
 const SingUp = () => {
-  const [fromData, setfromData] = useState({
+  const [formData, setFormData] = useState({
     Name: '',
     NameError: '',
     Email: '',
@@ -18,86 +25,56 @@ const SingUp = () => {
   });
 
   const Navigate = useNavigate();
-
-  // =========== Button Loading
   const [loading, setLoading] = useState(false);
 
-  // ===================== Firebase Variables
+  // Firebase Authentication Setup
   const auth = getAuth();
   const googleProvider = new GoogleAuthProvider();
 
-  // ===================== Handle Google Sign-Up
+  // ✅ Handle Google Sign-Up (Fix for Mobile)
   const handleGoogleSignUp = () => {
     setLoading(true);
 
-    signInWithPopup(auth, googleProvider)
-      .then((result) => {
-        const user = result.user;
-
-        //   Google 
-        toast.success(`Welcome, ${user.displayName}!`, {
-          position: 'top-right',
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: 'dark',
-          transition: Bounce,
+    if (window.innerWidth <= 768) {
+      // Use Redirect on Mobile
+      signInWithRedirect(auth, googleProvider);
+    } else {
+      // Use Popup on Desktop
+      signInWithPopup(auth, googleProvider)
+        .then((result) => {
+          const user = result.user;
+          toast.success(`Welcome, ${user.displayName}!`, { theme: 'dark' });
+          Navigate('/Home');
+          setLoading(false);
+        })
+        .catch((error) => {
+          setLoading(false);
+          console.error('Google Sign-Up Error:', error);
+          toast.error('Google Sign-Up failed. Please try again.', { theme: 'dark' });
         });
-
-      
-        Navigate('/Home');
-        setLoading(false);
-      })
-      .catch((error) => {
-        setLoading(false);
-        console.error('Google Sign-Up Error:', error);
-        toast.error('Google Sign-Up failed. Please try again.', {
-          position: 'top-right',
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: 'dark',
-          transition: Bounce,
-        });
-      });
+    }
   };
 
-  // ===================== Handle Email Sign-Up
-  const handelSubmit = () => {
-    if (!fromData.Name) {
-      setfromData((prev) => ({ ...prev, NameError: '!border-red-500' }));
+  //   Email Sign-Up
+  const handleSubmit = () => {
+    if (!formData.Name) {
+      setFormData((prev) => ({ ...prev, NameError: '!border-red-500' }));
     }
-    if (!fromData.Email) {
-      setfromData((prev) => ({ ...prev, EmailError: '!border-red-500' }));
+    if (!formData.Email) {
+      setFormData((prev) => ({ ...prev, EmailError: '!border-red-500' }));
     }
-    if (!fromData.Password) {
-      setfromData((prev) => ({ ...prev, PasswordError: '!border-red-500' }));
+    if (!formData.Password) {
+      setFormData((prev) => ({ ...prev, PasswordError: '!border-red-500' }));
     } else {
       setLoading(true);
-      createUserWithEmailAndPassword(auth, fromData.Email, fromData.Password)
+      createUserWithEmailAndPassword(auth, formData.Email, formData.Password)
         .then((userCredential) => {
           const user = userCredential.user;
 
           sendEmailVerification(user).then(() => {
             Navigate('/SingIn');
             setLoading(false);
-            toast.info('Verification code has been sent to your email address.', {
-              position: 'top-right',
-              autoClose: 5000,
-              hideProgressBar: false,
-              closeOnClick: false,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-              theme: 'dark',
-              transition: Bounce,
-            });
+            toast.info('Verification email has been sent.', { theme: 'dark' });
           });
         })
         .catch((error) => {
@@ -105,29 +82,9 @@ const SingUp = () => {
           const errorCode = error.code;
 
           if (errorCode === 'auth/email-already-in-use') {
-            toast.warn('Your email is already in use.', {
-              position: 'top-right',
-              autoClose: 5000,
-              hideProgressBar: false,
-              closeOnClick: false,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-              theme: 'dark',
-              transition: Bounce,
-            });
+            toast.warn('Email already in use.', { theme: 'dark' });
           } else if (errorCode === 'auth/weak-password') {
-            toast.warn('Enter a strong password.', {
-              position: 'top-right',
-              autoClose: 5000,
-              hideProgressBar: false,
-              closeOnClick: false,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-              theme: 'dark',
-              transition: Bounce,
-            });
+            toast.warn('Use a stronger password.', { theme: 'dark' });
           }
         });
     }
@@ -138,7 +95,7 @@ const SingUp = () => {
       <div className="container">
         <div className="login-box">
           <div className="login-form">
-            {/*----------------------- Form Part ============ */}
+            {/*======================= Form Section =======================*/}
             <div className="form_container">
               <h1 className="title">Sign up</h1>
               <div className="button_container">
@@ -162,40 +119,40 @@ const SingUp = () => {
                 {/*========== Name Input  ===========*/}
                 <input
                   onChange={(e) => {
-                    setfromData((prev) => ({ ...prev, Name: e.target.value }));
-                    setfromData((prev) => ({ ...prev, NameError: '' }));
+                    setFormData((prev) => ({ ...prev, Name: e.target.value }));
+                    setFormData((prev) => ({ ...prev, NameError: '' }));
                   }}
-                  className={`${fromData.NameError} input-field`}
+                  className={`${formData.NameError} input-field`}
                   type="text"
                   placeholder="Name"
                 />
                 {/*========== Email Input  ===========*/}
                 <input
                   onChange={(e) => {
-                    setfromData((prev) => ({ ...prev, Email: e.target.value }));
-                    setfromData((prev) => ({ ...prev, EmailError: '' }));
+                    setFormData((prev) => ({ ...prev, Email: e.target.value }));
+                    setFormData((prev) => ({ ...prev, EmailError: '' }));
                   }}
-                  className={`${fromData.EmailError} input-field`}
+                  className={`${formData.EmailError} input-field`}
                   type="email"
                   placeholder="Email"
                 />
                 {/*========== Password Input  ===========*/}
                 <input
                   onChange={(e) => {
-                    setfromData((prev) => ({ ...prev, Password: e.target.value }));
-                    setfromData((prev) => ({ ...prev, PasswordError: '' }));
+                    setFormData((prev) => ({ ...prev, Password: e.target.value }));
+                    setFormData((prev) => ({ ...prev, PasswordError: '' }));
                   }}
-                  className={`${fromData.PasswordError} input-field`}
+                  className={`${formData.PasswordError} input-field`}
                   type="password"
                   placeholder="Password"
                 />
-                {/*---------------- Button Start ---------------*/}
+                {/*---------------- Button ----------------*/}
                 {loading ? (
                   <button className="signup-button">
                     <BeatLoader color={'#fff'} />
                   </button>
                 ) : (
-                  <button onClick={handelSubmit} className="signup-button">
+                  <button onClick={handleSubmit} className="signup-button">
                     <svg className="signup-icon" fill="none" stroke="currentColor" strokeWidth="2">
                       <path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" />
                       <circle cx="8.5" cy="7" r="4" />
