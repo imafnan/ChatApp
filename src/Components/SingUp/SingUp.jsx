@@ -4,18 +4,11 @@ import { FcGoogle } from 'react-icons/fc';
 import { ImGithub } from 'react-icons/im';
 import { Link, useNavigate } from 'react-router-dom';
 import { Bounce, ToastContainer, toast } from 'react-toastify';
-import { 
-  getAuth, 
-  GoogleAuthProvider, 
-  signInWithPopup, 
-  signInWithRedirect,
-  createUserWithEmailAndPassword, 
-  sendEmailVerification 
-} from 'firebase/auth';
+import { getAuth, GoogleAuthProvider, signInWithPopup, createUserWithEmailAndPassword, sendEmailVerification, updateProfile } from 'firebase/auth';
 import { BeatLoader } from 'react-spinners';
 
 const SingUp = () => {
-  const [formData, setFormData] = useState({
+  const [fromData, setfromData] = useState({
     Name: '',
     NameError: '',
     Email: '',
@@ -25,56 +18,98 @@ const SingUp = () => {
   });
 
   const Navigate = useNavigate();
+
+  // =========== Button Loading
   const [loading, setLoading] = useState(false);
 
-  // Firebase Authentication Setup
+  // ===================== Firebase Variables
   const auth = getAuth();
   const googleProvider = new GoogleAuthProvider();
+  
 
-  // ✅ Handle Google Sign-Up (Fix for Mobile)
+  // =====================  Google Sign-Up =================
   const handleGoogleSignUp = () => {
     setLoading(true);
 
-    if (window.innerWidth <= 768) {
-      // Use Redirect on Mobile
-      signInWithRedirect(auth, googleProvider);
-    } else {
-      // Use Popup on Desktop
-      signInWithPopup(auth, googleProvider)
-        .then((result) => {
-          const user = result.user;
-          toast.success(`Welcome, ${user.displayName}!`, { theme: 'dark' });
-          Navigate('/Home');
-          setLoading(false);
-        })
-        .catch((error) => {
-          setLoading(false);
-          console.error('Google Sign-Up Error:', error);
-          toast.error('Google Sign-Up failed. Please try again.', { theme: 'dark' });
+    signInWithPopup(auth, googleProvider)
+      .then((result) => {
+        const user = result.user;
+
+        toast.success(`Welcome, ${user.displayName}!`, {
+          position: 'top-right',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: 'dark',
+          transition: Bounce,
         });
-    }
+        Navigate('/');
+        setLoading(false);
+      })
+
+      .catch((error) => {
+        setLoading(false);
+        console.error('Google Sign-Up Error:', error);
+        toast.error('Google Sign-Up failed. Please try again.', {
+          position: 'top-right',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: 'dark',
+          transition: Bounce,
+        });
+      });
   };
 
-  //   Email Sign-Up
-  const handleSubmit = () => {
-    if (!formData.Name) {
-      setFormData((prev) => ({ ...prev, NameError: '!border-red-500' }));
+
+  // =====================  Email Sign-Up ====================
+  const handelSubmit = () => {
+    if (!fromData.Name) {
+      setfromData((prev) => ({ ...prev, NameError: '!border-red-500' }));
     }
-    if (!formData.Email) {
-      setFormData((prev) => ({ ...prev, EmailError: '!border-red-500' }));
+    if (!fromData.Email) {
+      setfromData((prev) => ({ ...prev, EmailError: '!border-red-500' }));
     }
-    if (!formData.Password) {
-      setFormData((prev) => ({ ...prev, PasswordError: '!border-red-500' }));
+    if (!fromData.Password) {
+      setfromData((prev) => ({ ...prev, PasswordError: '!border-red-500' }));
     } else {
       setLoading(true);
-      createUserWithEmailAndPassword(auth, formData.Email, formData.Password)
+      createUserWithEmailAndPassword(auth, fromData.Email, fromData.Password)
         .then((userCredential) => {
           const user = userCredential.user;
 
           sendEmailVerification(user).then(() => {
-            Navigate('/SingIn');
-            setLoading(false);
-            toast.info('Verification email has been sent.', { theme: 'dark' });
+          
+            toast.info('Verification code has been sent to your email address.', {
+              position: 'top-right',
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: false,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: 'dark',
+              transition: Bounce,
+            });
+            updateProfile(auth.currentUser, {
+              displayName: fromData.Name, 
+              photoURL: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS2k5JqmWBq2zUPJpl0My5I4uH1789geA61vA8sgGFR1ktiR50kKGERGoAsWr3v-KxBEpc&usqp=CAU"
+            })
+            .then(() => {
+              Navigate('/SingIn');
+              setLoading(false);
+              console.log(userCredential);
+              
+            })
+            .catch((error) => {
+              
+            });
           });
         })
         .catch((error) => {
@@ -82,9 +117,29 @@ const SingUp = () => {
           const errorCode = error.code;
 
           if (errorCode === 'auth/email-already-in-use') {
-            toast.warn('Email already in use.', { theme: 'dark' });
+            toast.warn('Your email is already in use.', {
+              position: 'top-right',
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: false,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: 'dark',
+              transition: Bounce,
+            });
           } else if (errorCode === 'auth/weak-password') {
-            toast.warn('Use a stronger password.', { theme: 'dark' });
+            toast.warn('Enter a strong password.', {
+              position: 'top-right',
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: false,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: 'dark',
+              transition: Bounce,
+            });
           }
         });
     }
@@ -95,7 +150,7 @@ const SingUp = () => {
       <div className="container">
         <div className="login-box">
           <div className="login-form">
-            {/*======================= Form Section =======================*/}
+            {/*----------------------- Form Part ============ */}
             <div className="form_container">
               <h1 className="title">Sign up</h1>
               <div className="button_container">
@@ -119,40 +174,40 @@ const SingUp = () => {
                 {/*========== Name Input  ===========*/}
                 <input
                   onChange={(e) => {
-                    setFormData((prev) => ({ ...prev, Name: e.target.value }));
-                    setFormData((prev) => ({ ...prev, NameError: '' }));
+                    setfromData((prev) => ({ ...prev, Name: e.target.value }));
+                    setfromData((prev) => ({ ...prev, NameError: '' }));
                   }}
-                  className={`${formData.NameError} input-field`}
+                  className={`${fromData.NameError} input-field`}
                   type="text"
                   placeholder="Name"
                 />
                 {/*========== Email Input  ===========*/}
                 <input
                   onChange={(e) => {
-                    setFormData((prev) => ({ ...prev, Email: e.target.value }));
-                    setFormData((prev) => ({ ...prev, EmailError: '' }));
+                    setfromData((prev) => ({ ...prev, Email: e.target.value }));
+                    setfromData((prev) => ({ ...prev, EmailError: '' }));
                   }}
-                  className={`${formData.EmailError} input-field`}
+                  className={`${fromData.EmailError} input-field`}
                   type="email"
                   placeholder="Email"
                 />
                 {/*========== Password Input  ===========*/}
                 <input
                   onChange={(e) => {
-                    setFormData((prev) => ({ ...prev, Password: e.target.value }));
-                    setFormData((prev) => ({ ...prev, PasswordError: '' }));
+                    setfromData((prev) => ({ ...prev, Password: e.target.value }));
+                    setfromData((prev) => ({ ...prev, PasswordError: '' }));
                   }}
-                  className={`${formData.PasswordError} input-field`}
+                  className={`${fromData.PasswordError} input-field`}
                   type="password"
                   placeholder="Password"
                 />
-                {/*---------------- Button ----------------*/}
+                {/*---------------- Button Start ---------------*/}
                 {loading ? (
                   <button className="signup-button">
                     <BeatLoader color={'#fff'} />
                   </button>
                 ) : (
-                  <button onClick={handleSubmit} className="signup-button">
+                  <button onClick={handelSubmit} className="signup-button">
                     <svg className="signup-icon" fill="none" stroke="currentColor" strokeWidth="2">
                       <path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" />
                       <circle cx="8.5" cy="7" r="4" />

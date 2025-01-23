@@ -1,8 +1,9 @@
+import Profile from "../Components/Profile/Profile"
 
 const Home = () => {
   return (
-    <div className=" text-[250px] text-red-600 font-bold text-center  ">
-    HOME
+    <div className=" w-full h-screen flex justify-center items-center  ">
+    <Profile/>
     </div>
   )
 }

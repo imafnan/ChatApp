@@ -1,0 +1,41 @@
+.card {
+    @apply w-[420px] h-[450px] flex flex-col items-center justify-center text-center gap-4
+     bg-white rounded-[20px] relative overflow-hidden transition-all duration-500 ease-in-out;
+}
+
+.card::before {
+    content: "";
+    @apply w-[420px] h-[170px] absolute top-0 rounded-t-[20px] border-b-[3px] border-white 
+    bg-gradient-to-r from-purple-600 via-red-500 to-yellow-400 transition-all duration-300 ease-in-out;
+}
+
+.card * {
+    @apply z-[1];
+}
+
+.image {
+    @apply w-[150px] h-[150px]  rounded-full border-[5px] border-white mt-[40px] overflow-hidden
+}
+
+.card-info {
+    @apply flex flex-col items-center gap-5 transition-all duration-500 ease-in-out;
+}
+
+.card-info span {
+    @apply font-semibold text-[26px] text-[#161A42] mt-[20px] leading-[6px];
+}
+
+.card-info p {
+    @apply text-black/60 text-lg;
+}
+
+.button {
+    @apply text-white bg-blue-600 px-6 py-2 rounded-lg border border-white transition-all 
+    duration-500 ease-in-out;
+}
+
+
+
+.button:hover {
+    @apply bg-orange-500 scale-[1.1];
+}

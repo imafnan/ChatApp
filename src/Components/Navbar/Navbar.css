@@ -1,0 +1,45 @@
+nav {
+    @apply ml-4 2xl:ml-8 w-[120px] flex flex-col justify-between mt-8;
+}
+
+nav ul {
+    @apply flex flex-col gap-5 text-xl duration-200 will-change-transform z-[333];
+}
+
+nav ul:hover {
+    @apply scale-[1.05] will-change-transform;
+}
+
+.nav-link {
+    @apply text-3xl duration-200 will-change-transform h-[55px] flex items-center text-gray-500 dark:text-gray-400 rounded-lg px-4 py-2;
+    transition: all 0.3s ease-in-out;
+}
+
+.nav-link:hover {
+    @apply scale-[1.08] pl-5 text-gray-700 dark:text-gray-200 bg-gray-200 dark:bg-gray-800 shadow-md;
+}
+
+.nav-link span {
+    @apply opacity-0 text-sm duration-300 absolute px-4 py-1 rounded-md bg-red-200 dark:bg-gray-700 text-black dark:text-white text-nowrap;
+}
+
+.nav-link:hover span {
+    @apply opacity-100 ml-12;
+}
+
+.logout-btn {
+    @apply text-3xl text-gray-500 duration-200 mt-6 will-change-transform bg-red-200 dark:bg-red-500 rounded-lg px-4 py-2;
+    transition: all 0.3s ease-in-out;
+}
+
+.logout-btn:hover {
+    @apply scale-[1.08] pl-3 bg-red-400 dark:bg-red-600 text-white;
+}
+
+.logout-btn span {
+    @apply opacity-0 text-sm duration-300 absolute px-4 py-1 rounded-md bg-red-300 dark:bg-red-700 text-white;
+}
+
+.logout-btn:hover span {
+    @apply opacity-100 ml-14;
+}

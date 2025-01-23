@@ -4,6 +4,9 @@ import app from "./Firebase"
 import SingIn from "./Components/SingIn/SingIn"
 import { ToastContainer } from "react-toastify"
 import Home from "./Pages/Home"
+import Layout from "./Layout/Layout"
+import ResetPass from "./Components/ResetPass/ResetPass"
+import User from "./Pages/User"
 
 
 
@@ -11,9 +14,13 @@ const App = () => {
 
   const myRoute=createBrowserRouter(createRoutesFromElements(
     <Route>
-      <Route path="/" element={<SingUp/>}/>
+      <Route path="/SingUp" element={<SingUp/>}/>
       <Route path="/SingIn" element={<SingIn/>}/>
-      <Route path="/Home" element={<Home/>}/>
+      <Route path="/ResetPass" element={<ResetPass/>}/>
+      <Route path="/" element={<Layout/>}>
+        <Route index element={<Home/>}/>
+        <Route path="/User" element={<User/>}/>
+      </Route>
     </Route>
   ))
 
