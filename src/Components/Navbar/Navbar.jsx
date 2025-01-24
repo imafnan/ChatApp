@@ -14,7 +14,7 @@ const Navbar = () => {
   const handelLogout =()=>{
     navigate('/SingIn')
     localStorage.removeItem('currentUser')
-    
+    alert('LogOut')
     
   }
 
