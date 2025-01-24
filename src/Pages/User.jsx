@@ -20,7 +20,6 @@ const User = () => {
             setalluser(arr)
           });
     },[])
-    console.log(alluser);
     
 
 
@@ -32,7 +31,7 @@ const User = () => {
         <div className="container">
           <h2 className="text-[22px] font-bold text-gray-400 mb-4 ">User</h2>
           {alluser?.map((item, id) => (
-        <div key={id} className="flex justify-between items-center w-full my-2 bg-white shadow-md rounded-lg p-5">
+        <div key={id} className="flex  justify-between items-center w-full my-2 bg-white shadow-md rounded-lg p-3">
           <CommonUserProfile ProfileName={item.userName} ProfileImg={item.userPhoto} />
           <ButtonV1 />
         </div>

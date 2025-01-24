@@ -1,23 +1,36 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './Navbar.css';
-import { FaUsersSlash, FaUsersViewfinder } from 'react-icons/fa6';
-import { AiOutlineUsergroupAdd } from 'react-icons/ai';
+import { FaUserPlus, FaUsers, FaUsersSlash } from 'react-icons/fa6';
+import { AiFillMessage } from 'react-icons/ai';
 import { GiExitDoor, GiThreeFriends } from 'react-icons/gi';
 import { FaRegUserCircle } from 'react-icons/fa';
-import { MdOutlineMessage } from 'react-icons/md';
 
 const Navbar = () => {
+
+  // ================ Navigate ___
+  const navigate =useNavigate()
+
+  // ================ Log Out Button
+  const handelLogout =()=>{
+    navigate('/SingIn')
+    localStorage.removeItem('currentUser')
+    
+    
+  }
+
+
+
   return (
     <nav>
       <ul>
         <Link className='nav-link' to="/User">
-          <FaUsersViewfinder className="nav-icon" /> <span>Users</span>
+          <FaUsers className="nav-icon" /> <span>Users</span>
         </Link>
         <Link className='nav-link' to="#">
-          <MdOutlineMessage  className="nav-icon" /> <span>Message</span>
+          <AiFillMessage  className="nav-icon" /> <span>Message</span>
         </Link>
         <Link className='nav-link' to="#">
-          <AiOutlineUsergroupAdd className="nav-icon" /> <span>Requests</span>
+          <FaUserPlus className="nav-icon" /> <span>Requests</span>
         </Link>
         <Link className='nav-link' to="#">
           <GiThreeFriends className="nav-icon" /> <span>Friends</span>
@@ -28,7 +41,7 @@ const Navbar = () => {
         <Link className='nav-link' to="/">
           <FaRegUserCircle className="nav-icon" /> <span>Profile</span>
         </Link>
-        <button className='nav-link'>
+        <button onClick={handelLogout} className='nav-link'>
           <GiExitDoor className="nav-icon" /> <span>Log Out</span>
         </button>
       </ul>
