@@ -46,7 +46,7 @@ const SingUp = () => {
           theme: 'dark',
           transition: Bounce,
         });
-        Navigate('/');
+        Navigate('/SingIn');
         setLoading(false);
       })
 

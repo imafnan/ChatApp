@@ -7,7 +7,7 @@ import {getAuth,signInWithEmailAndPassword,GoogleAuthProvider,signInWithPopup,} 
 import { Bounce, toast, ToastContainer } from 'react-toastify';
 import { useDispatch } from 'react-redux';
 import {  UserLoginData } from '../../Slice/authSlice';
-import { getDatabase, push, ref, set } from "firebase/database";
+import { getDatabase,  ref, set } from "firebase/database";
  
 
 const SingIn = () => {
@@ -28,6 +28,7 @@ const SingIn = () => {
   const handleGoogleSignIn = () => {
     signInWithPopup(auth, googleProvider)
       .then((result) => {
+        navigate('/');  
         const user = result.user;
         toast.success(`Welcome ${user.displayName}!`, {
           position: 'top-right',
@@ -40,11 +41,10 @@ const SingIn = () => {
           theme: 'dark',
           transition: Bounce,
         });
-        navigate('/');  
         Dispatch(UserLoginData(result.user))
         localStorage.setItem("currentUser", JSON.stringify(result.user));
          // Realtime data store =========
-         set(push(ref(db, 'allUsers/')), {
+         set(ref(db, 'allUsers/' + result.user.uid), {
           userName: result.user.displayName,
           userPhoto: result.user.photoURL,
         });
@@ -96,7 +96,7 @@ const SingIn = () => {
             localStorage.setItem("currentUser", JSON.stringify(userCredential.user));
             
             // Realtime data store =========
-            set(push(ref(db, 'allUsers/')), {
+            set(ref(db, 'allUsers/' + userCredential.user.uid), {
               userName: userCredential.user.displayName,
               userPhoto: userCredential.user.photoURL,
             });

@@ -1,5 +1,5 @@
 /* From Uiverse.io by vinodjangid07 */ 
-.card {
+.cards {
     display: flex;
     width: 430px;
     height: 430px;
@@ -80,7 +80,7 @@
     cursor: pointer;
   }
   
-  .card:hover .BG svg {
+  .cards:hover .BG svg {
     left: 0%;
     top: 0%;
     transform: rotate(180deg) scale(9);
