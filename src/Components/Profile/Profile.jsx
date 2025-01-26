@@ -6,6 +6,8 @@ const Profile = () => {
 
     // =============== Redux
         const currentUser =useSelector((state)=>state.authUser.value)
+        console.log(currentUser);
+        
             
 
     return (
