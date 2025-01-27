@@ -1,1 +1,1 @@
- Live :-  https://chat-app-3avq.vercel.app/SingUp
+ Live :- https://chat-app-3avq.vercel.app
