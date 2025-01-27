@@ -29,7 +29,7 @@ const Navbar = () => {
         <Link className='nav-link' to="#">
           <AiFillMessage  className="nav-icon" /> <span>Message</span>
         </Link>
-        <Link className='nav-link' to="#">
+        <Link className='nav-link' to="/friendRequests">
           <FaUserPlus className="nav-icon" /> <span>Requests</span>
         </Link>
         <Link className='nav-link' to="#">

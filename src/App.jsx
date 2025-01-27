@@ -7,6 +7,7 @@ import Home from "./Pages/Home"
 import Layout from "./Layout/Layout"
 import ResetPass from "./Components/ResetPass/ResetPass"
 import User from "./Pages/User"
+import Requests from "./Pages/Requests"
 
 
 
@@ -20,6 +21,7 @@ const App = () => {
       <Route path="/" element={<Layout/>}>
         <Route index element={<Home/>}/>
         <Route path="/User" element={<User/>}/>
+        <Route path="/friendRequests" element={<Requests/>}/>
       </Route>
     </Route>
   ))
