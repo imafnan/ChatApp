@@ -17,7 +17,7 @@ const User = () => {
 
     // =========  Friend Requests 
     useEffect(() => {
-        const requestRef = ref(db, 'friendquest');
+        const requestRef = ref(db, 'friendrequest ');
 
         onValue(requestRef, (snapshot) => {
             let requests = {};
@@ -46,10 +46,10 @@ const User = () => {
 
     // ========= Handle Add   And  Cancel Friend Request
     const handelAddFriend = (userData) => { 
-        const requestRef = ref(db, 'friendquest');
+        const requestRef = ref(db, 'friendrequest ');
 
         if (sentRequests[userData.key]) {
-            remove(ref(db, `friendquest/${sentRequests[userData.key]}`))
+            remove(ref(db, `friendrequest /${sentRequests[userData.key]}`))
             .then(() => {
               toast.info('Friend request canceled!', {
                 position: "top-right",

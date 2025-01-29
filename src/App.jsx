@@ -8,8 +8,7 @@ import Layout from "./Layout/Layout"
 import ResetPass from "./Components/ResetPass/ResetPass"
 import User from "./Pages/User"
 import Requests from "./Pages/Requests"
-
-
+import Friend  from './Pages/Friend'
 
 const App = () => {
 
@@ -22,6 +21,7 @@ const App = () => {
         <Route index element={<Home/>}/>
         <Route path="/User" element={<User/>}/>
         <Route path="/friendRequests" element={<Requests/>}/>
+        <Route path="/friends" element={<Friend/>}/>
       </Route>
     </Route>
   ))

@@ -32,7 +32,7 @@ const Navbar = () => {
         <Link className='nav-link' to="/friendRequests">
           <FaUserPlus className="nav-icon" /> <span>Requests</span>
         </Link>
-        <Link className='nav-link' to="#">
+        <Link className='nav-link' to="/friends">
           <GiThreeFriends className="nav-icon" /> <span>Friends</span>
         </Link>
         <Link className='nav-link' to="#">
