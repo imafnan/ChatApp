@@ -9,6 +9,7 @@ import ResetPass from "./Components/ResetPass/ResetPass"
 import User from "./Pages/User"
 import Requests from "./Pages/Requests"
 import Friend  from './Pages/Friend'
+import BlockList from "./Pages/BlockList"
 
 const App = () => {
 
@@ -22,6 +23,7 @@ const App = () => {
         <Route path="/User" element={<User/>}/>
         <Route path="/friendRequests" element={<Requests/>}/>
         <Route path="/friends" element={<Friend/>}/>
+        <Route path="/BlockList" element={<BlockList/>}/>
       </Route>
     </Route>
   ))
