@@ -15,7 +15,7 @@ const Layout = () => {
   
 
   return (
-    <div className="flex gap-[25px]">
+    <div className="flex">
       <Navbar/>
       <Outlet/> 
     </div>

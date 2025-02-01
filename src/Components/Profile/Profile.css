@@ -1,11 +1,11 @@
 .card {
-    @apply w-[420px] h-[450px] flex flex-col items-center justify-center text-center gap-4
+    @apply max-sm:mr-3 max-sm:w-[100%] max-sm:h-[280px] w-[420px] h-[450px] flex flex-col items-center justify-center text-center gap-4
      bg-white rounded-[20px] relative overflow-hidden transition-all duration-500 ease-in-out;
 }
 
 .card::before {
     content: "";
-    @apply w-[420px] h-[170px] absolute top-0 rounded-t-[20px] border-b-[3px] border-white 
+    @apply max-sm:w-[100%]  w-[420px] max-sm:h-[110px] h-[170px] absolute top-0 rounded-t-[20px] border-b-[3px] border-white 
     bg-gradient-to-r from-purple-600 via-red-500 to-yellow-400 transition-all duration-300 ease-in-out;
 }
 
@@ -14,7 +14,8 @@
 }
 
 .image {
-    @apply w-[150px] h-[150px]  rounded-full border-[5px] border-white mt-[40px] overflow-hidden
+    @apply max-sm:w-[120px] max-sm:h-[120px]  w-[150px] h-[150px]
+      rounded-full border-[5px] border-white max-sm:mt-[0px] mt-[40px] overflow-hidden
 }
 
 .card-info {
@@ -22,20 +23,10 @@
 }
 
 .card-info span {
-    @apply font-semibold text-[26px] text-[#161A42] mt-[20px] leading-[6px];
+    @apply font-semibold text-[26px] max-sm:text-[20px] text-[#161A42] max-sm:mt-[13px] mt-[20px] leading-[6px];
 }
 
 .card-info p {
-    @apply text-black/60 text-lg;
+    @apply text-black/60 text-lg max-sm:text-[14px];
 }
 
-.button {
-    @apply text-white bg-blue-600 px-6 py-2 rounded-lg border border-white transition-all 
-    duration-500 ease-in-out;
-}
-
-
-
-.button:hover {
-    @apply bg-orange-500 scale-[1.1];
-}

@@ -20,7 +20,6 @@ const Profile = () => {
             <span>{currentUser?.displayName}</span>
             <p>{currentUser?.email}</p>
         </div>
-        <a className="button" href="#">Folow</a>
         </div>
     </>
   )
