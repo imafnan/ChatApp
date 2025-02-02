@@ -1,7 +1,8 @@
 import { getDatabase, onValue, push, ref, remove, set } from 'firebase/database';
 import React, { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import CommonUserProfile from '../Common/CommonUserProfile';
+import { ChatUser } from '../../Slice/ChatUserSlice';
 
 const MasList = () => {
 
@@ -10,12 +11,16 @@ const MasList = () => {
 
     // ========== Redux Variable
     const currentUser = useSelector((state) => state.authUser.value);
-    const ChatData = useSelector((state) => state.ChatUserData.value);
+    const dispatch =useDispatch()
   
     // ========= Firebase Variable
     const db = getDatabase();
   
     // =========== All function
+    const handelUser =(ChatUserProfile)=>{
+        dispatch(ChatUser(ChatUserProfile))
+        localStorage.setItem('chatUser' , JSON.stringify(ChatUserProfile))
+    }
   
    
 
@@ -48,7 +53,6 @@ const MasList = () => {
 
 
 
-console.log(allFriends);
 
 
 
@@ -62,7 +66,7 @@ console.log(allFriends);
       <h2 className="text-[22px] font-bold text-gray-400 mb-4">Friends</h2>
       {
         allFriends.map((item) => (
-          <div  key={item.key} className="flex items-center w-full my-2 bg-white shadow-md rounded-lg p-3">
+          <div onClick={()=>handelUser(item)} key={item.key} className="flex items-center w-full my-2 bg-white shadow-md rounded-lg p-3">
             <CommonUserProfile  ProfileName={item.friendName} ProfileImg={item.friendPhoto} TextSize={'max-sm:text-[12px] max-md:text-[12px]'} />
           </div>
         ))

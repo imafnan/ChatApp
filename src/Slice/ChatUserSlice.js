@@ -3,14 +3,14 @@ import { createSlice } from '@reduxjs/toolkit';
 export const ChatUserSlice = createSlice({
   name: 'chatUser',
   initialState: {
-    value: null,
+    value: JSON.parse(localStorage.getItem('chatUser')) ?JSON.parse(localStorage.getItem('chatUser')) : null
   },
   reducers: {
-    setChatUser: (state, action) => {
+    ChatUser: (state, action) => {
       state.value = action.payload;
     },
   },
 });
 
-export const { setChatUser } = ChatUserSlice.actions;
+export const { ChatUser } = ChatUserSlice.actions;
 export default ChatUserSlice.reducer;
