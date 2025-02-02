@@ -26,7 +26,7 @@ const Navbar = () => {
         <Link className='nav-link' to="/User">
           <FaUsers className="nav-icon" /> <span>Users</span>
         </Link>
-        <Link className='nav-link' to="#">
+        <Link className='nav-link' to="/Message">
           <AiFillMessage  className="nav-icon" /> <span>Message</span>
         </Link>
         <Link className='nav-link' to="/friendRequests">

@@ -1,8 +1,10 @@
-import { configureStore } from '@reduxjs/toolkit'
-import UserLoginData   from './Slice/authSlice'
+import { configureStore } from '@reduxjs/toolkit';
+import authReducer from './Slice/authSlice';
+import chatUserReducer from './Slice/ChatUserSlice';
 
 export default configureStore({
   reducer: {
-    authUser:UserLoginData 
+    authUser: authReducer, 
+    ChatUserData: chatUserReducer, 
   },
-})
+});

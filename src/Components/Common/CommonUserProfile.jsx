@@ -1,7 +1,7 @@
 
 import React from "react";
 
-const CommonUserProfile = ({ProfileName ,ProfileImg}) => {
+const CommonUserProfile = ({ProfileName ,ProfileImg ,TextSize}) => {
   return (
     <>
       <div className="CommonUserProfile flex items-center gap-4">
@@ -9,7 +9,7 @@ const CommonUserProfile = ({ProfileName ,ProfileImg}) => {
           <img src={ProfileImg} alt="Profile" className="w-full h-full object-cover" />
         </div>
         <div>
-          <h2 className="text-[18px] max-sm:text-[15px] font-semibold text-gray-700">{ProfileName}</h2>
+          <h2 className={`text-[18px] max-sm:text-[15px] font-semibold text-gray-700 ${TextSize}`}>{ProfileName}</h2>
         </div>
       </div>
     </>
